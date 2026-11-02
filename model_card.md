@@ -1,71 +1,38 @@
 # 🎧 Model Card: Music Recommender Simulation
 
-## 1. Model Name  
+## Model Name
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
-
----
-
-## 2. Intended Use  
-
-Describe what your recommender is designed to do and who it is for. 
-
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+**Vibe Match Music Recommender**
 
 ---
 
-## 3. How the Model Works  
+## Goal / Task
 
-This recommender uses **content-based filtering**: it compares details about each song with the listener's preferences. A song gets 2 points if its genre matches the listener's favorite genre and 1 point if its mood matches. It also gets an energy similarity score calculated as `1 - abs(song_energy - target_energy)`, so songs with energy closer to the listener's target score higher. The system adds these points together, ranks songs from highest score to lowest, and returns the top results.
-
----
-
-## 4. Data  
-
-Describe the dataset the model uses.  
-
-Prompts:  
-
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+Recommend the five songs in the catalog that best match a listener's favorite genre, favorite mood, and desired energy level.
 
 ---
 
-## 5. Strengths  
+## Data Used
 
-Where does your system seem to work well  
-
-Prompts:  
-
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
+The recommender uses a catalog of 18 songs. Each record includes genre, mood, energy, tempo, valence, danceability, and acousticness, but the scoring currently uses only genre, mood, and energy. There is no listener history or feedback data.
 
 ---
 
-## 6. Limitations and Bias 
+## Algorithm Summary
 
-Where the system struggles or behaves unfairly. 
-
-The catalog has only 18 songs, so it offers limited variety and may not include good matches for many listeners; its narrow set of song features also leaves out aspects of taste such as lyrics, artists, and listening context. The original weights favored genre, while our experiment gave genre and mood 1 point each and doubled the energy-similarity contribution, so changing weights shifted scores without changing the top-five rankings for any of our four test profiles. This shows that tuning scores alone did not alter these results, and it does not prove that the recommendations are accurate for real listeners. The formula rewards closeness to a single target energy, which can favor energetic songs even when the listener also wants a contrasting mood, and does not model more complex preferences. Exact genre and mood matches can also disadvantage listeners whose preferred styles or combinations are missing from this small catalog.
-
-Prompts:  
-
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
+This is a simple content-based recommender: it compares each song with one listener's preferences and sorts songs by score. A genre match adds 2 points, a mood match adds 1 point, and energy adds `1 - abs(song_energy - target_energy)` points (up to 1 when the values are on the 0-to-1 scale). The runner displays the five highest-scoring songs and explains the score.
 
 ---
 
-## 7. Evaluation  
+## Observed Behavior / Biases
+
+Matching the requested genre and mood can produce sensible results, but the catalog has only 18 songs, so it offers limited variety and may lack good matches. The score ignores lyrics, artists, listening context, and several available song features; exact genre and mood labels may also miss listeners whose tastes do not fit those labels. Energy similarity rewards being close to one target, which may not represent a listener with mixed or changing preferences.
+
+In the weight-shift experiment, genre changed from 2 points to 1, mood stayed at 1, and energy's contribution doubled. Scores changed, but the top-five rankings stayed the same for all four test profiles. This small experiment does not show which recommendations real listeners would prefer.
+
+---
+
+## Evaluation Process
 
 I tested four profiles and checked whether each list matched its preferred genre, mood, and energy. Here are the top five results in order:
 
@@ -89,16 +56,17 @@ I also compared the original weights (genre match = 2 points, mood match = 1, en
 
 ---
 
-## 8. Future Work  
+## Intended Use and Non-Intended Use
 
-Ideas for how you would improve the model next.  
+This project is for classroom exploration of how simple recommendation scores work. It can demonstrate how genre, mood, and energy affect a short list, but it is not intended as a production music service or as a reliable measure of an individual listener's taste.
 
-Prompts:  
+---
 
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
+## Ideas for Improvement
+
+- Expand the catalog with more songs and a wider range of genres, moods, and energy levels.
+- Let listeners rate recommendations, then use that feedback to check whether the results match their tastes.
+- Ask for preferences such as tempo or acousticness and use them in scoring, while checking that the top results remain varied.
 
 ---
 
@@ -106,8 +74,14 @@ Prompts:
 
 A few sentences about your experience.  
 
-Prompts:  
+## 9. Personal Reflection
 
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+Working on this project helped me understand how music recommendation systems work and how they use different preferences to suggest songs. Before this project, I didn't really think about how much the scoring system matters. I learned that even a simple algorithm can make recommendations by comparing things like genre, mood, and energy.
+
+One thing that surprised me was how changing the scoring weights didn't change the order of the recommendations. I also found it interesting that Blue Hour Train ranked first even though its energy didn't really match what the listener wanted. That showed me that just because a song has the highest score doesn't mean it's the perfect recommendation.
+
+Using AI tools like GitHub Copilot helped me understand the code, fix issues, and test different ideas. However, I also learned that I shouldn't just trust everything AI gives me. I had to check the results in the terminal, run tests, and make sure the calculations and recommendations made sense.
+
+This project also changed how I look at music recommendation apps. I realized that recommendations aren't always as complicated as they seem, but the way a system is designed can affect what people see. If I continued this project, I would add more songs, allow users to give feedback, and include more preferences to make the recommendations better.
+
+Overall, this was a good learning experience because I got to see how coding, AI tools, and testing work together to build a recommendation system.
