@@ -54,7 +54,7 @@ Prompts:
 
 Where the system struggles or behaves unfairly. 
 
-Genre matches are worth 2 points, more than mood matches or energy similarity, which each contribute at most 1 point. Because of that, the system may favor a song in the listener's favorite genre even when another song is a closer match for their mood or energy. This creates a potential bias toward genre matches.
+The catalog has only 18 songs, so it offers limited variety and may not include good matches for many listeners; its narrow set of song features also leaves out aspects of taste such as lyrics, artists, and listening context. The original weights favored genre, while our experiment gave genre and mood 1 point each and doubled the energy-similarity contribution, so changing weights shifted scores without changing the top-five rankings for any of our four test profiles. This shows that tuning scores alone did not alter these results, and it does not prove that the recommendations are accurate for real listeners. The formula rewards closeness to a single target energy, which can favor energetic songs even when the listener also wants a contrasting mood, and does not model more complex preferences. Exact genre and mood matches can also disadvantage listeners whose preferred styles or combinations are missing from this small catalog.
 
 Prompts:  
 
@@ -67,16 +67,25 @@ Prompts:
 
 ## 7. Evaluation  
 
-How you checked whether the recommender behaved as expected. 
+I tested four profiles and checked whether each list matched its preferred genre, mood, and energy. Here are the top five results in order:
 
-Prompts:  
+- **High-Energy Pop:** Sunrise City, Gym Hero, Rooftop Lights, Paper Lantern Dance, Saturday Parade. Sunrise City leads because it matches pop and happy and is close to the high-energy target.
+- **Chill Lofi:** Midnight Coding, Library Rain, Focus Flow, Spacewalk Thoughts, Wildflower Map. The first two match both lofi and chill; Focus Flow is also lofi and has almost exactly the target energy, though its mood is focused rather than chill.
+- **Deep Intense Rock:** Storm Runner, Gym Hero, Comet Trail, Paper Lantern Dance, Sunrise City. Storm Runner matches rock and intense and is close to the high-energy target.
+- **High-Energy Melancholic Blues:** Blue Hour Train, Comet Trail, Gym Hero, Storm Runner, Paper Lantern Dance. Blue Hour Train matches blues and melancholic, so it ranks first even though its energy similarity is only 0.51. Its genre and mood matches outweigh the energy gap; the other songs near the top have energy closer to the target but match neither preferred label.
 
-- Which user profiles you tested  
-- What you looked for in the recommendations  
-- What surprised you  
-- Any simple tests or comparisons you ran  
+Gym Hero is a notable surprise because it appears for both Pop and Rock. It matches the Pop profile's genre and has high energy, while for Rock it matches the intense mood and has high energy; it does not need to match every preference to rank well. The blues result is also a reminder that a top rank means “highest score under these rules,” not necessarily a perfect fit for everything the listener asked for.
 
-No need for numeric metrics unless you created some.
+The six pairwise comparisons show which profiles have similar results and why:
+
+1. **High-Energy Pop vs. Chill Lofi:** Their top-five lists do not overlap. The Pop list favors happy pop and high-energy tracks; the Lofi list favors lofi/chill songs near the lower energy target.
+2. **High-Energy Pop vs. Deep Intense Rock:** They share Gym Hero. It is pop and energetic, helping it for Pop, and it is intense and energetic, helping it for Rock. The remaining songs differ because the profiles favor different genres and moods.
+3. **High-Energy Pop vs. High-Energy Melancholic Blues:** They share Gym Hero and Paper Lantern Dance. Both lists favor energetic songs, but Pop also rewards happy/pop matches while Blues rewards melancholic/blues matches, putting Sunrise City first for Pop and Blue Hour Train first for Blues.
+4. **Chill Lofi vs. Deep Intense Rock:** Their top-five lists do not overlap. Their energy targets are far apart, and their preferred genres and moods—lofi/chill versus rock/intense—are different.
+5. **Chill Lofi vs. High-Energy Melancholic Blues:** Their top-five lists do not overlap. The Lofi profile favors low-energy chill tracks, while the Blues profile favors melancholic blues and asks for high energy, so the two lists reflect different moods, genres, and energy targets.
+6. **Deep Intense Rock vs. High-Energy Melancholic Blues:** They share Comet Trail, Gym Hero, Storm Runner, and Paper Lantern Dance. Both profiles target high energy, so energetic songs can score well for both. Storm Runner leads for Rock because it matches rock and intense; Blue Hour Train leads for Blues because it matches blues and melancholic despite lower energy.
+
+I also compared the original weights (genre match = 2 points, mood match = 1, energy similarity = 1 times its similarity) with the experiment (genre = 1, mood = 1, energy = 2 times its similarity). The scores changed, but the top-five rankings stayed in the same order for all four profiles. This small test shows the weight change affected score values but did not change these lists; it does not establish which lists real listeners would prefer.
 
 ---
 
