@@ -2,16 +2,7 @@
 
 ## Project Summary
 
-In this project you will build and explain a small music recommender system.
-
-Your goal is to:
-
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
-
-Replace this paragraph with your own summary of what your version does.
+This project implements a content-based music recommender over a catalog of 18 songs. It scores songs against a listener's favorite genre, favorite mood, and target energy, then returns the five highest-scoring songs with explanations for four example profiles.
 
 ---
 
@@ -35,30 +26,39 @@ I think genre, mood, and energy are good ways to describe a song's vibe. Genre t
 
    ```bash
    python -m venv .venv
-   source .venv/bin/activate      # Mac or Linux
-   .venv\Scripts\activate         # Windows
+   ```
 
-2. Install dependencies
+   Activate it on macOS/Linux:
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   source .venv/bin/activate
+   ```
+
+   Or activate it in Windows PowerShell:
+
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 3. Run the app:
 
-```bash
-python -m src.main
-```
+   ```bash
+   python -m src.main
+   ```
 
 ### Running Tests
 
-Run the starter tests with:
+Run the tests with:
 
 ```bash
 pytest
 ```
-
-You can add more tests in `tests/test_recommender.py`.
 
 ---
 
@@ -139,43 +139,20 @@ Paper Lantern Dance - Score: 0.92
 Because: Genre does not match blues (+0.0). Mood does not match melancholic (+0.0). Energy similarity: 0.92.
 ```
 
-
-
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
-
 ---
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+I compared the original weights (genre = 2, mood = 1, energy similarity = 1) with genre = 1, mood = 1, and energy similarity = 2. Scores changed, but the top-five rankings stayed in the same order for all four profiles. This experiment only compares two settings on this small catalog; it does not show which recommendations listeners would prefer.
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+The catalog contains only 18 songs and no listener history or feedback. Scoring uses exact genre and mood matches plus one target energy value, while ignoring other available features such as tempo and valence, as well as lyrics and listening context. These rules can produce limited or imperfect matches, especially for listeners with varied preferences.
 
 ---
 
 ## Reflection
 
-Read and complete `model_card.md`:
-
-[**Model Card**](model_card.md)
-
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
+My personal reflection on the project is in the [**Model Card**](model_card.md).

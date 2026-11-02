@@ -70,10 +70,6 @@ This project is for classroom exploration of how simple recommendation scores wo
 
 ---
 
-## 9. Personal Reflection  
-
-A few sentences about your experience.  
-
 ## 9. Personal Reflection
 
 Working on this project helped me understand how music recommendation systems work and how they use different preferences to suggest songs. Before this project, I didn't really think about how much the scoring system matters. I learned that even a simple algorithm can make recommendations by comparing things like genre, mood, and energy.
