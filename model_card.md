@@ -21,16 +21,7 @@ Prompts:
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
-
-Prompts:  
-
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+This recommender uses **content-based filtering**: it compares details about each song with the listener's preferences. A song gets 2 points if its genre matches the listener's favorite genre and 1 point if its mood matches. It also gets an energy similarity score calculated as `1 - abs(song_energy - target_energy)`, so songs with energy closer to the listener's target score higher. The system adds these points together, ranks songs from highest score to lowest, and returns the top results.
 
 ---
 
@@ -62,6 +53,8 @@ Prompts:
 ## 6. Limitations and Bias 
 
 Where the system struggles or behaves unfairly. 
+
+Genre matches are worth 2 points, more than mood matches or energy similarity, which each contribute at most 1 point. Because of that, the system may favor a song in the listener's favorite genre even when another song is a closer match for their mood or energy. This creates a potential bias toward genre matches.
 
 Prompts:  
 

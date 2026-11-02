@@ -17,17 +17,13 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+Collaborative filtering recommends songs based on what other listeners enjoy, while content-based filtering compares a song's features with one listener's preferences. This project uses content-based filtering because its small song catalog includes song features but no listening history from multiple users.
 
-Some prompts to answer:
+Each `Song` has a **genre**, **mood**, and **energy**. The `UserProfile` stores a **favorite_genre**, **favorite_mood**, and **target_energy**. The recommender gives a song +2.0 points for a matching genre, +1.0 point for a matching mood, and `1 - abs(song_energy - target_energy)` points for energy similarity. It scores each song and ranks them from highest to lowest score; the highest-scoring songs are recommended.
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+The expanded dataset has 18 songs. For this profile, the favorite genre is "pop", the favorite mood is "happy", and the target energy is 0.8. Since a genre match is worth more than a mood match or energy similarity, the system may favor genre too strongly and overlook songs that fit the mood or energy better. The small dataset also limits the variety of recommendations.
 
-You can include a simple diagram or bullet list if helpful.
+I think genre, mood, and energy are good ways to describe a song's vibe. Genre tells me the type of music, mood describes how the song feels, and energy helps me understand if a song is calm or intense. I think these three features work well together for recommending music.
 
 ---
 
@@ -70,14 +66,26 @@ You can add more tests in `tests/test_recommender.py`.
 
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
+```text
+Top recommendations:
+
+Sunrise City - Score: 3.98
+Because: Genre matches pop (+2.0). Mood matches happy (+1.0). Energy similarity: 0.98.
+
+Gym Hero - Score: 2.87
+Because: Genre matches pop (+2.0). Mood does not match happy (+0.0). Energy similarity: 0.87.
+
+Rooftop Lights - Score: 1.96
+Because: Genre does not match pop (+0.0). Mood matches happy (+1.0). Energy similarity: 0.96.
+
+Saturday Parade - Score: 0.99
+Because: Genre does not match pop (+0.0). Mood does not match happy (+0.0). Energy similarity: 0.99.
+
+Night Drive Loop - Score: 0.95
+Because: Genre does not match pop (+0.0). Mood does not match happy (+0.0). Energy similarity: 0.95.
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
-```
+
+
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
 
@@ -117,6 +125,4 @@ Write 1 to 2 paragraphs here about what you learned:
 
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
-
-
 
